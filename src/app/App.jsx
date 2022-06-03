@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import InputGroup from "../components/shared/forms/InputGroup";
 import Button from "../components/UI/buttons/Button";
 import TextInput from "../components/UI/inputs/TextInput";
@@ -23,6 +23,8 @@ const init = {
   },
 };
 
+let isInitial = true;
+
 const App = () => {
   const [state, setState] = useState(deepClone(init));
   const [hasError, setHasError] = useState(false);
@@ -45,19 +47,23 @@ const App = () => {
   const handleChange = (e) => {
     const { name: key, value } = e.target;
     const newState = deepClone(state);
-    newState[key].value = value;
-
-    const values = mapStateToValues(state);
-
-    const { errors } = checkValidity(values);
-
-    if (newState[key].focus && errors[key]) {
-      newState[key].error = errors[key];
-    } else {
+    if (value && newState[key].focus) {
       newState[key].error = "";
     }
-
+    newState[key].value = value;
     setState(newState);
+
+    // const values = mapStateToValues(state);
+    // const { errors } = checkValidity(values);
+
+    // const validateState = deepClone(state);
+    // if (errors[key] && state[key].focus) {
+    //   validateState[key].error = errors[key];
+    // } else {
+    //   validateState[key].error = "";
+    // }
+
+    // setState(validateState);
   };
 
   const handleFocus = (e) => {
@@ -103,6 +109,7 @@ const App = () => {
       isValid: Object.keys(errors).length === 0,
     };
   };
+
   return (
     <>
       <div className="root">
