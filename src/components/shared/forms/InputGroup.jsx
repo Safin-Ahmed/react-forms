@@ -29,7 +29,14 @@ const InputGroup = ({
   return (
     <Container>
       <Label htmlFor={name}>{label}</Label>
-      <TextInput name={name} id={name} placeholder={placeholder ?? ""} />
+      <TextInput
+        onChange={onChange}
+        onBlur={onBlur}
+        onFocus={onFocus}
+        name={name}
+        id={name}
+        placeholder={placeholder ?? ""}
+      />
       {error && <ErrorMessage>{error}</ErrorMessage>}
     </Container>
   );
